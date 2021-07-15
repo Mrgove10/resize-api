@@ -1,0 +1,1 @@
+module.exports.rootUrl = 'http://xxxxx.com/users/high/'
