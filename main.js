@@ -11,12 +11,10 @@ const config = require('./config.js')
 app.get('/:definition/:img', async (req, res) => {
     const imgName = req.params.img;
     const def = req.params.definition;
-    let widthParam = parseInt(req.query.w);
-    if (widthParam < 100) {
-        // 100 width, lowest reslution
-        widthParam = 100
+    let widthParam = 100;
+    if (req.query.w !== undefined && req.query.w !== null) {
+        widthParam = parseInt(req.query.w);
     }
-
     //console.log(imgName, def, widthParam);
 
     if (imgName && def) {
@@ -27,6 +25,10 @@ app.get('/:definition/:img', async (req, res) => {
         }
         else if (def === "low") {
             // if the resolution is low, compress its
+            if (widthParam < 100) {
+                // 100 width, lowest reslution
+                widthParam = 100
+            }
             axios.get(originalURL, {
                 responseType: 'arraybuffer'
             }).then((response) => {
